@@ -31,6 +31,7 @@ class GoveeApp extends utils.Adapter {
     this.reLoginTimeout = null;
     this.refreshTokenTimeout = null;
     this.session = {};
+    this.defaultObjects = {};
     this.iot = {};
     this.snapshots = {};
     this.diys = {};
@@ -231,12 +232,7 @@ class GoveeApp extends utils.Adapter {
             //receive snapshots
             await this.requestClient({
               method: "get",
-              url:
-                "https://app2.govee.com/bff-app/v1/devices/snapshots?sku=" +
-                device.sku +
-                "&device=" +
-                device.device +
-                "&snapshotId=-1",
+              url: "https://app2.govee.com/bff-app/v1/devices/snapshots?sku=" + device.sku + "&device=" + device.device + "&snapshotId=-1",
               headers: {
                 "content-type": "application/json",
                 authorization: "Bearer " + this.session.token,
@@ -344,6 +340,65 @@ class GoveeApp extends utils.Adapter {
             //     error.response && this.log.error(JSON.stringify(error.response.data));
             //   });
           }
+
+          // receive defaults
+          await this.requestClient({
+            method: "get",
+            url: "https://app2.govee.com/bff-app/v1/exec-plat/home",
+            headers: {
+              authorization: "Bearer " + this.session.token,
+              accept: "*/*",
+              timestamp: Date.now() + ".686035",
+              envid: "0",
+              clientid: "d39f7b0732a24e58acf771103ebefc04",
+              appversion: "5.4.10",
+              "accept-language": "de",
+              clienttype: "1",
+              "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
+              timezone: "Europe/Berlin",
+              country: "DE",
+              iotversion: "0",
+            },
+          })
+            .then(async (res) => {
+              this.log.debug(JSON.stringify(res.data));
+
+              if (res.data.data && res.data.data.components) {
+                const defaults = res.data.data.components.filter((obj) => {
+                  return obj.type === 1;
+                });
+                if (defaults[0]) {
+                  await this.setObjectNotExistsAsync("defaults", {
+                    type: "channel",
+                    common: {
+                      name: "Activate Defaults",
+                    },
+                    native: {},
+                  });
+                  for (const defaultItem of defaults[0].oneClicks) {
+                    this.log.info("Received default: " + defaultItem.name);
+                    this.defaultObjects[defaultItem.siriEngineId] = defaultItem;
+                    this.setObjectNotExists("defaults." + defaultItem.siriEngineId, {
+                      type: "state",
+                      common: {
+                        name: defaultItem.name,
+                        type: "boolean",
+                        role: "boolean",
+                        def: false,
+                        write: true,
+                        read: true,
+                      },
+                      native: {},
+                    });
+                  }
+                }
+              }
+            })
+            .catch((error) => {
+              this.log.error(error);
+              this.log.error("defaults failed");
+              error.response && this.log.error(JSON.stringify(error.response.data));
+            });
         }
       })
       .catch((error) => {
@@ -408,10 +463,8 @@ class GoveeApp extends utils.Adapter {
       if (this.mqttC) {
         this.mqttC.publish(
           device.deviceExt.deviceSettings.topic,
-          `{"msg":{"accountTopic":"${
-            this.session.topic
-          }","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
-          { qos: 1 },
+          `{"msg":{"accountTopic":"${this.session.topic}","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
+          { qos: 1 }
         );
       }
     }
@@ -497,6 +550,59 @@ class GoveeApp extends utils.Adapter {
         }
         let mqttCommand = command;
         let data = `{"val":${state.val}}`;
+
+        if (deviceId === "defaults") {
+          const defaultItem = this.defaultObjects[folder];
+
+          if (defaultItem) {
+            for (const iotRule of defaultItem.iotRules) {
+              const iotMsg = [];
+              for (const iotRuleItem of iotRule.rule) {
+                iotMsg.push(iotRuleItem.iotMsg);
+              }
+              await this.requestClient({
+                method: "post",
+                url: "https://app2.govee.com/app/v2/circadian-rhythms/commands",
+                headers: {
+                  "content-type": "application/json",
+                  authorization: "Bearer " + this.session.token,
+                  accept: "*/*",
+                  timestamp: Date.now() + ".686035",
+                  envid: "0",
+                  clientid: "d39f7b0732a24e58acf771103ebefc04",
+                  appversion: "5.4.10",
+                  "accept-language": "de",
+                  clienttype: "1",
+                  "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
+                  timezone: "Europe/Berlin",
+                  country: "DE",
+                  iotversion: "0",
+                },
+                data: {
+                  iotSendMsgs: [
+                    {
+                      iotMsg: iotMsg,
+                      topic: iotRule.deviceObj.topic,
+                    },
+                  ],
+                  key: "",
+                  transaction: Date.now(),
+                  view: 0,
+                },
+              })
+                .then((res) => {
+                  this.log.info(JSON.stringify(res.data));
+                })
+                .catch((error) => {
+                  this.log.error(error);
+                  this.log.error("Command send failed");
+                  error.response && this.log.error(JSON.stringify(error.response.data));
+                });
+            }
+          }
+          return;
+        }
+
         if (folder === "snapshots") {
           for (const cmd of this.snapshots[command].cmds) {
             this.mqttC.publish(device.deviceExt.deviceSettings.topic, cmd.iotCmd, { qos: 1 });
@@ -532,7 +638,7 @@ class GoveeApp extends utils.Adapter {
           `{"msg":{"accountTopic":"${
             this.session.topic
           }","cmd":"${mqttCommand}","cmdVersion":0,"data":${data},"transaction":"x_${Date.now()}","type":1}}`,
-          { qos: 1 },
+          { qos: 1 }
         );
       } else {
         const idArray = id.split(".");
