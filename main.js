@@ -12,14 +12,14 @@ const Json2iob = require("./lib/json2iob");
 const forge = require("node-forge");
 const awsIot = require("aws-iot-device-sdk");
 const path = require("path");
-class Govee extends utils.Adapter {
+class GoveeApp extends utils.Adapter {
   /**
    * @param {Partial<utils.AdapterOptions>} [options={}]
    */
   constructor(options) {
     super({
       ...options,
-      name: "govee",
+      name: "govee-app",
     });
     this.on("ready", this.onReady.bind(this));
     this.on("stateChange", this.onStateChange.bind(this));
@@ -564,8 +564,8 @@ if (require.main !== module) {
   /**
    * @param {Partial<utils.AdapterOptions>} [options={}]
    */
-  module.exports = (options) => new Govee(options);
+  module.exports = (options) => new GoveeApp(options);
 } else {
   // otherwise start the instance directly
-  new Govee();
+  new GoveeApp();
 }
