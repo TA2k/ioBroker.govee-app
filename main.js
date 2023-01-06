@@ -364,7 +364,7 @@ class GoveeApp extends utils.Adapter {
         username: "?SDK=Android&Version=2.15.2",
         privateKey: Buffer.from(this.iot.pem.pemKey, "utf-8"),
         clientCert: Buffer.from(this.iot.pem.pemCertificate, "utf-8"),
-        caPath: path.join(__dirname, "./lib/amazon.pem"),
+        caPath: path.join(__dirname, "/lib/amazon.pem"),
         host: this.iot.endpoint,
         region: region,
       });
