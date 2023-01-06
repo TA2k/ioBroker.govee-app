@@ -1,4 +1,5 @@
 ![Logo](admin/govee-app.png)
+
 # ioBroker.govee-app
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.govee-app.svg)](https://www.npmjs.com/package/iobroker.govee-app)
@@ -14,17 +15,29 @@
 
 Adapter for Govee via App
 
+Getestet bisher nur mit Lampen.
+Andere Geräte benötigt ich kurz Zugriff dann kann ich die Mode Änderung für andere Geräte einfügen.
+Man kann auch snapshots auswählen und aktivieren.
+
+Aktueller status:
+govee-app.0.id.status
 
 ## Steuerung
 
 govee-app.0.id.remote
+Bisher gehen turn, brightness und color.
+
+govee-app.0.id.snapshots
+Außerdem kann man snapshots aktivieren
 
 ## Changelog
 
 ### 0.0.1
-* (TA2k) initial release
+
+- (TA2k) initial release
 
 ## License
+
 MIT License
 
 Copyright (c) 2023 TA2k <tombox2020@gmail.com>
