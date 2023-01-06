@@ -1,0 +1,108 @@
+{
+  "common": {
+    "name": "govee-app",
+    "version": "0.0.1",
+    "news": {
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Начальная версия",
+        "pt": "lançamento inicial",
+        "nl": "Eerste uitgave",
+        "fr": "Première version",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "zh-cn": "首次出版"
+      }
+    },
+    "title": "Govee",
+    "titleLang": {
+      "en": "Govee",
+      "de": "Govee via App",
+      "ru": "Гови",
+      "pt": "Govee",
+      "nl": "Govee",
+      "fr": "Gouvernante",
+      "it": "Govee",
+      "es": "Govee",
+      "pl": "Govee",
+      "zh-cn": "戈维"
+    },
+    "desc": {
+      "en": "Adapter for Govee via App",
+      "de": "Adapter für Govee per App",
+      "ru": "Адаптер для Govee через приложение",
+      "pt": "Adaptador para Govee via App",
+      "nl": "Adapter voor Govee via app",
+      "fr": "Adaptateur pour Govee via App",
+      "it": "Adattatore per Govee tramite App",
+      "es": "Adaptador para Govee vía App",
+      "pl": "Adapter do Govee przez aplikację",
+      "zh-cn": "通过 App 的 Govee 适配器"
+    },
+    "authors": ["TA2k <tombox2020@gmail.com>"],
+    "keywords": ["govee"],
+    "license": "MIT",
+    "platform": "Javascript/Node.js",
+    "main": "main.js",
+    "icon": "govee-app.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/TA2k/ioBroker.govee-app/main/admin/govee-app.png",
+    "readme": "https://github.com/TA2k/ioBroker.govee-app/blob/main/README.md",
+    "loglevel": "info",
+    "mode": "daemon",
+    "type": "lighting",
+    "compact": true,
+    "connectionType": "cloud",
+    "dataSource": "push",    
+    "plugins": {
+      "sentry": {
+        "dsn": "https://802f699c7aa84a62b0bcb54b31485352@sentry.iobroker.net/226"
+      }
+    },
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=3.3.22"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.2.28"
+      }
+    ]
+  },
+  "encryptedNative": ["password"],
+  "protectedNative": ["password"],
+  "native": {
+    "username": "",
+    "password": ""
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "Device or service connected",
+        "type": "boolean",
+        "read": true,
+        "write": false,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
+}
