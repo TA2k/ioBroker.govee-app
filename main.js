@@ -176,6 +176,10 @@ class GoveeApp extends utils.Adapter {
           this.log.info(`Found ${res.data.devices.length} devices`);
           for (const device of res.data.devices) {
             const id = device.device;
+            if (!id) {
+              this.log.warn(`Device without id found: ${JSON.stringify(device)}`);
+              continue;
+            }
             this.devices[id] = device;
             this.deviceArray.push(device);
             const name = device.deviceName;
@@ -232,7 +236,12 @@ class GoveeApp extends utils.Adapter {
             //receive snapshots
             await this.requestClient({
               method: "get",
-              url: "https://app2.govee.com/bff-app/v1/devices/snapshots?sku=" + device.sku + "&device=" + device.device + "&snapshotId=-1",
+              url:
+                "https://app2.govee.com/bff-app/v1/devices/snapshots?sku=" +
+                device.sku +
+                "&device=" +
+                device.device +
+                "&snapshotId=-1",
               headers: {
                 "content-type": "application/json",
                 authorization: "Bearer " + this.session.token,
@@ -463,8 +472,10 @@ class GoveeApp extends utils.Adapter {
       if (this.mqttC) {
         this.mqttC.publish(
           device.deviceExt.deviceSettings.topic,
-          `{"msg":{"accountTopic":"${this.session.topic}","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
-          { qos: 1 }
+          `{"msg":{"accountTopic":"${
+            this.session.topic
+          }","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
+          { qos: 1 },
         );
       }
     }
@@ -638,7 +649,7 @@ class GoveeApp extends utils.Adapter {
           `{"msg":{"accountTopic":"${
             this.session.topic
           }","cmd":"${mqttCommand}","cmdVersion":0,"data":${data},"transaction":"x_${Date.now()}","type":1}}`,
-          { qos: 1 }
+          { qos: 1 },
         );
       } else {
         const idArray = id.split(".");
