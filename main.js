@@ -452,19 +452,27 @@ class GoveeApp extends utils.Adapter {
       });
 
       this.mqttC.on("message", async (topic, message) => {
-        const data = JSON.parse(message);
-        this.log.debug("MQTT message: " + topic + " " + JSON.stringify(data));
-        let status = data.state;
-        let device = data.device;
-        if (data.msg) {
-          const msg = JSON.parse(data.msg);
-          device = msg.device;
-          status = JSON.parse(msg.data);
-        }
-        if (device && status) {
-          this.json2iob.parse(device + ".status", status, { forceIndex: true });
-        } else {
-          this.log.warn("Cannot parse MQTT message: " + topic + " " + JSON.stringify(data));
+        try {
+          const data = JSON.parse(message);
+          this.log.debug("MQTT message: " + topic + " " + JSON.stringify(data));
+          let status = data.state;
+          let device = data.device;
+          if (data.msg) {
+            const msg = JSON.parse(data.msg);
+            device = msg.device;
+            if (msg.data) {
+              status = JSON.parse(msg.data);
+            } else {
+              return;
+            }
+          }
+          if (device && status) {
+            this.json2iob.parse(device + ".status", status, { forceIndex: true });
+          } else {
+            this.log.warn("Cannot parse MQTT message: " + topic + " " + JSON.stringify(data));
+          }
+        } catch (error) {
+          this.log.warn(`Cannot parse MQTT message: ${topic} ${message} ${error}`);
         }
       });
 
