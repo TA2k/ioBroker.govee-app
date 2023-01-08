@@ -236,12 +236,7 @@ class GoveeApp extends utils.Adapter {
             //receive snapshots
             await this.requestClient({
               method: "get",
-              url:
-                "https://app2.govee.com/bff-app/v1/devices/snapshots?sku=" +
-                device.sku +
-                "&device=" +
-                device.device +
-                "&snapshotId=-1",
+              url: "https://app2.govee.com/bff-app/v1/devices/snapshots?sku=" + device.sku + "&device=" + device.device + "&snapshotId=-1",
               headers: {
                 "content-type": "application/json",
                 authorization: "Bearer " + this.session.token,
@@ -423,6 +418,11 @@ class GoveeApp extends utils.Adapter {
       if (split_mqtt.length === 3) {
         region = split_mqtt[2];
       }
+      if (this.mqttC) {
+        this.mqttC.end();
+        await this.sleep(200);
+      }
+
       this.mqttC = awsIot.device({
         clientId: `AP/${this.session.accountId}/a36bcee2ebe0db37e`,
         username: "?SDK=Android&Version=2.15.2",
@@ -454,7 +454,18 @@ class GoveeApp extends utils.Adapter {
       this.mqttC.on("message", async (topic, message) => {
         const data = JSON.parse(message);
         this.log.debug("MQTT message: " + topic + " " + JSON.stringify(data));
-        this.json2iob.parse(data.device + ".status", data.state, { forceIndex: true });
+        let status = data.state;
+        let device = data.device;
+        if (data.msg) {
+          const msg = JSON.parse(data.msg);
+          device = msg.device;
+          status = JSON.parse(msg.data);
+        }
+        if (device && status) {
+          this.json2iob.parse(device + ".status", status, { forceIndex: true });
+        } else {
+          this.log.warn("Cannot parse MQTT message: " + topic + " " + JSON.stringify(data));
+        }
       });
 
       this.mqttC.on("error", (error) => {
@@ -472,10 +483,8 @@ class GoveeApp extends utils.Adapter {
       if (this.mqttC) {
         this.mqttC.publish(
           device.deviceExt.deviceSettings.topic,
-          `{"msg":{"accountTopic":"${
-            this.session.topic
-          }","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
-          { qos: 1 },
+          `{"msg":{"accountTopic":"${this.session.topic}","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
+          { qos: 1 }
         );
       }
     }
@@ -649,7 +658,7 @@ class GoveeApp extends utils.Adapter {
           `{"msg":{"accountTopic":"${
             this.session.topic
           }","cmd":"${mqttCommand}","cmdVersion":0,"data":${data},"transaction":"x_${Date.now()}","type":1}}`,
-          { qos: 1 },
+          { qos: 1 }
         );
       } else {
         const idArray = id.split(".");
@@ -662,6 +671,7 @@ class GoveeApp extends utils.Adapter {
         }
         const resultDict = {
           onOff: "turn",
+          turn: "turn",
           brightness: "brightness",
           r: "r",
           g: "g",
