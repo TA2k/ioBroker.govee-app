@@ -237,7 +237,12 @@ class GoveeApp extends utils.Adapter {
             //receive snapshots
             await this.requestClient({
               method: "get",
-              url: "https://app2.govee.com/bff-app/v1/devices/snapshots?sku=" + device.sku + "&device=" + device.device + "&snapshotId=-1",
+              url:
+                "https://app2.govee.com/bff-app/v1/devices/snapshots?sku=" +
+                device.sku +
+                "&device=" +
+                device.device +
+                "&snapshotId=-1",
               headers: {
                 "content-type": "application/json",
                 authorization: "Bearer " + this.session.token,
@@ -546,8 +551,10 @@ class GoveeApp extends utils.Adapter {
       if (this.mqttC) {
         this.mqttC.publish(
           device.deviceExt.deviceSettings.topic,
-          `{"msg":{"accountTopic":"${this.session.topic}","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
-          { qos: 1 }
+          `{"msg":{"accountTopic":"${
+            this.session.topic
+          }","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
+          { qos: 1 },
         );
       }
     }
@@ -687,6 +694,10 @@ class GoveeApp extends utils.Adapter {
         }
         if (deviceId === "groups") {
           const group = this.groups[folder];
+          if (!group) {
+            this.log.warn("Group not found: " + folder);
+            return;
+          }
           const value = state.val ? 1 : 0;
           mqttCommand = "turn";
           data = `{"val":${value}}`;
@@ -697,13 +708,17 @@ class GoveeApp extends utils.Adapter {
               `{"msg":{"accountTopic":"${
                 this.session.topic
               }","cmd":"${mqttCommand}","cmdVersion":0,"data":${data},"transaction":"x_${Date.now()}","type":1}}`,
-              { qos: 1 }
+              { qos: 1 },
             );
           }
           return;
         }
 
         if (folder === "snapshots") {
+          if (!this.snapshots[command]) {
+            this.log.warn("Snapshot not found: " + command);
+            return;
+          }
           for (const cmd of this.snapshots[command].cmds) {
             this.mqttC.publish(device.deviceExt.deviceSettings.topic, cmd.iotCmd, { qos: 1 });
           }
@@ -738,7 +753,7 @@ class GoveeApp extends utils.Adapter {
           `{"msg":{"accountTopic":"${
             this.session.topic
           }","cmd":"${mqttCommand}","cmdVersion":0,"data":${data},"transaction":"x_${Date.now()}","type":1}}`,
-          { qos: 1 }
+          { qos: 1 },
         );
       } else {
         const idArray = id.split(".");
