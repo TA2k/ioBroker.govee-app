@@ -566,8 +566,8 @@ class GoveeApp extends utils.Adapter {
   async onStateChange(id, state) {
     if (state) {
       if (!state.ack) {
-        this.connectMqtt();
-        await this.sleep(1000);
+        // this.connectMqtt();
+        // await this.sleep(1000);
         const deviceId = id.split(".")[2];
         const folder = id.split(".")[3];
         const command = id.split(".")[4];
