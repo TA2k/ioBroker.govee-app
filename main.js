@@ -32,6 +32,7 @@ class GoveeApp extends utils.Adapter {
     this.refreshTokenTimeout = null;
     this.session = {};
     this.defaultObjects = {};
+    this.groups = {};
     this.iot = {};
     this.snapshots = {};
     this.diys = {};
@@ -403,6 +404,60 @@ class GoveeApp extends utils.Adapter {
               this.log.error("defaults failed");
               error.response && this.log.error(JSON.stringify(error.response.data));
             });
+
+          // receive groups
+          await this.requestClient({
+            method: "get",
+            url: "https://app2.govee.com/bff-app/v1/widget/groups-devices",
+            headers: {
+              authorization: "Bearer " + this.session.token,
+              accept: "*/*",
+              timestamp: Date.now() + ".686035",
+              envid: "0",
+              clientid: "d39f7b0732a24e58acf771103ebefc04",
+              appversion: "5.4.10",
+              "accept-language": "de",
+              clienttype: "1",
+              "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
+              timezone: "Europe/Berlin",
+              country: "DE",
+              iotversion: "0",
+            },
+          })
+            .then(async (res) => {
+              this.log.debug(JSON.stringify(res.data));
+
+              if (res.data.data && res.data.data.groups) {
+                await this.setObjectNotExistsAsync("groups", {
+                  type: "channel",
+                  common: {
+                    name: "Activate Groups",
+                  },
+                  native: {},
+                });
+                for (const group of res.data.data.groups) {
+                  this.log.info("Received groups: " + group.name);
+                  this.groups[group.gId] = group;
+                  this.setObjectNotExists("groups." + group.gId, {
+                    type: "state",
+                    common: {
+                      name: group.name,
+                      type: "boolean",
+                      role: "boolean",
+                      def: false,
+                      write: true,
+                      read: true,
+                    },
+                    native: {},
+                  });
+                }
+              }
+            })
+            .catch((error) => {
+              this.log.error(error);
+              this.log.error("groups failed");
+              error.response && this.log.error(JSON.stringify(error.response.data));
+            });
         }
       })
       .catch((error) => {
@@ -627,6 +682,23 @@ class GoveeApp extends utils.Adapter {
                   error.response && this.log.error(JSON.stringify(error.response.data));
                 });
             }
+          }
+          return;
+        }
+        if (deviceId === "groups") {
+          const group = this.groups[folder];
+          const value = state.val ? 1 : 0;
+          mqttCommand = "turn";
+          data = `{"val":${value}}`;
+          for (const device of group.devices) {
+            this.log.debug(" MQTT send: " + value + " to " + device.topic + " data " + data);
+            this.mqttC.publish(
+              device.topic,
+              `{"msg":{"accountTopic":"${
+                this.session.topic
+              }","cmd":"${mqttCommand}","cmdVersion":0,"data":${data},"transaction":"x_${Date.now()}","type":1}}`,
+              { qos: 1 }
+            );
           }
           return;
         }
