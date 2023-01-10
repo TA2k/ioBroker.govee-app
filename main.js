@@ -61,7 +61,7 @@ class GoveeApp extends utils.Adapter {
     await this.login();
     if (this.session.token) {
       await this.getDeviceList();
-      this.log.info("Connected to MQTT");
+      this.log.info("Connect to MQTT");
       await this.connectMqtt();
       await this.updateDevices();
       this.updateInterval = setInterval(async () => {
