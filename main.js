@@ -61,6 +61,7 @@ class GoveeApp extends utils.Adapter {
     await this.login();
     if (this.session.token) {
       await this.getDeviceList();
+      this.log.info("Connected to MQTT");
       await this.connectMqtt();
       await this.updateDevices();
       this.updateInterval = setInterval(async () => {
@@ -714,6 +715,10 @@ class GoveeApp extends utils.Adapter {
           return;
         }
 
+        if (!this.mqttC) {
+          this.log.warn("MQTT not connected. Please wait for Mqtt connection");
+          return;
+        }
         if (folder === "snapshots") {
           if (!this.snapshots[command]) {
             this.log.warn("Snapshot not found: " + command);
