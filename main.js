@@ -751,7 +751,10 @@ class GoveeApp extends utils.Adapter {
           mqttCommand = "colorwc";
           data = `{"color":{"b":255,"g":255,"r":255},"colorTemInKelvin":${state.val}}`;
         }
-
+        if (!device) {
+          this.log.warn("Device not found: " + deviceId);
+          return;
+        }
         this.log.debug(" MQTT send: " + mqttCommand + " to " + device.device + " data " + data);
         this.mqttC.publish(
           device.deviceExt.deviceSettings.topic,
