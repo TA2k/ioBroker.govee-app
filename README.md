@@ -30,9 +30,12 @@ Bisher gehen turn, brightness und color.
 govee-app.0.id.snapshots
 Außerdem kann man snapshots aktivieren
 
+govee-app.0.defaults
+Außerdem kann man defaults/kurzbefehle aktivieren
+
 ## Changelog
 
-### 0.0.1
+### 0.0.3
 
 - (TA2k) initial release
 

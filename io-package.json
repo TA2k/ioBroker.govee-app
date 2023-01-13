@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "govee-app",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "news": {
-      "0.0.1": {
+      "0.0.3": {
         "en": "initial release",
         "de": "Erstveröffentlichung",
         "ru": "Начальная версия",
@@ -41,8 +41,12 @@
       "pl": "Adapter do Govee przez aplikację",
       "zh-cn": "通过 App 的 Govee 适配器"
     },
-    "authors": ["TA2k <tombox2020@gmail.com>"],
-    "keywords": ["govee"],
+    "authors": [
+      "TA2k <tombox2020@gmail.com>"
+    ],
+    "keywords": [
+      "govee"
+    ],
     "license": "MIT",
     "platform": "Javascript/Node.js",
     "main": "main.js",
@@ -55,7 +59,7 @@
     "type": "lighting",
     "compact": true,
     "connectionType": "cloud",
-    "dataSource": "push",    
+    "dataSource": "push",
     "plugins": {
       "sentry": {
         "dsn": "https://802f699c7aa84a62b0bcb54b31485352@sentry.iobroker.net/226"
@@ -75,8 +79,12 @@
       }
     ]
   },
-  "encryptedNative": ["password"],
-  "protectedNative": ["password"],
+  "encryptedNative": [
+    "password"
+  ],
+  "protectedNative": [
+    "password"
+  ],
   "native": {
     "username": "",
     "password": ""
