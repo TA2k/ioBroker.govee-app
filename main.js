@@ -66,6 +66,7 @@ class GoveeApp extends utils.Adapter {
       await this.updateDevices();
       this.updateInterval = setInterval(async () => {
         await this.updateDevices();
+        await this.updateViaDeviceList();
       }, 5 * 60 * 1000);
     }
     this.refreshTokenInterval = setInterval(() => {
@@ -150,6 +151,41 @@ class GoveeApp extends utils.Adapter {
       });
   }
 
+  async updateViaDeviceList() {
+    await this.requestClient({
+      method: "post",
+      url: "https://app2.govee.com/device/rest/devices/v1/list",
+      headers: {
+        "content-type": "application/json",
+        authorization: "Bearer " + this.session.token,
+        accept: "*/*",
+        timestamp: Date.now() + ".767822",
+        envid: "0",
+        clientid: "d39f7b0732a24e58acf771103ebefc04",
+        appversion: "5.4.10",
+        "accept-language": "de",
+        clienttype: "1",
+        "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
+        timezone: "Europe/Berlin",
+        country: "DE",
+        iotversion: "0",
+      },
+    })
+      .then(async (res) => {
+        this.log.debug(JSON.stringify(res.data));
+        for (const device of res.data.devices) {
+          const id = device.device;
+          if (!id) {
+            continue;
+          }
+          await this.json2iob.parse(id, device, { forceIndex: true });
+        }
+      })
+      .catch((error) => {
+        this.log.error(error);
+        error.response && this.log.error(JSON.stringify(error.response.data));
+      });
+  }
   async getDeviceList() {
     //GET https://app2.govee.com/bff-app/v1/data-square/devices
     await this.requestClient({
@@ -226,7 +262,7 @@ class GoveeApp extends utils.Adapter {
                 common: {
                   name: remote.name || "",
                   type: remote.type || "boolean",
-                  role: remote.role || "boolean",
+                  role: remote.role || "button",
                   def: remote.def != null ? remote.def : false,
                   write: true,
                   read: true,
@@ -637,6 +673,10 @@ class GoveeApp extends utils.Adapter {
         const device = this.devices[deviceId];
         if (id.split(".")[4] === "Refresh") {
           this.updateDevices();
+          return;
+        }
+        if (!device) {
+          this.log.warn(`Device ${deviceId} not found`);
           return;
         }
         let mqttCommand = command;
