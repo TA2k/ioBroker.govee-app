@@ -15,9 +15,7 @@
 
 Adapter for Govee via App
 
-Getestet bisher nur mit Lampen.
-Andere Geräte benötigt ich kurz Zugriff dann kann ich die Mode Änderung für andere Geräte einfügen.
-Man kann auch snapshots auswählen und aktivieren.
+Man kann snapshots und defaults auswählen und aktivieren.
 
 Aktueller status:
 govee-app.0.id.status
@@ -33,7 +31,35 @@ Außerdem kann man snapshots aktivieren
 govee-app.0.defaults
 Außerdem kann man defaults/kurzbefehle aktivieren
 
+# English
+
+Adapter for Govee via App
+
+You can select and enable snapshots and defaults.
+
+Current status:
+
+govee-app.0.id.status
+
+## Control
+
+govee-app.0.id.remote
+
+So far turn, brightness and color are working.
+
+govee-app.0.id.snapshots
+
+You can also enable snapshots
+
+govee-app.0.defaults
+
+You can also enable defaults/shortcuts
+
 ## Changelog
+
+### 0.0.4
+
+- (TA2k) add support for BLE devices
 
 ### 0.0.3
 

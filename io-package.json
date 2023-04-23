@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "govee-app",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "news": {
+      "0.0.4": {
+        "en": "added update for BLE devices",
+        "de": "Aktualisierung für BLE-Geräte",
+        "ru": "добавлено обновление для BLE устройств",
+        "pt": "atualização adicionada para dispositivos BLE",
+        "nl": "vertaling:",
+        "fr": "mise à jour supplémentaire pour les appareils BLE",
+        "it": "aggiornamento aggiunto per i dispositivi BLE",
+        "es": "actualización agregada para dispositivos BLE",
+        "pl": "uaktualnienia BLE",
+        "uk": "додано оновлення для пристроїв BLE",
+        "zh-cn": "b. 低地装置的更新"
+      },
       "0.0.3": {
         "en": "initial release",
         "de": "Erstveröffentlichung",
@@ -16,9 +29,8 @@
         "zh-cn": "首次出版"
       }
     },
-    "title": "Govee",
     "titleLang": {
-      "en": "Govee",
+      "en": "Govee via App",
       "de": "Govee via App",
       "ru": "Гови",
       "pt": "Govee",
