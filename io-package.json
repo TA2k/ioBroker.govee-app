@@ -1,9 +1,9 @@
 {
   "common": {
     "name": "govee-app",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "news": {
-      "0.0.4": {
+      "0.0.5": {
         "en": "added update for BLE devices",
         "de": "Aktualisierung für BLE-Geräte",
         "ru": "добавлено обновление для BLE устройств",

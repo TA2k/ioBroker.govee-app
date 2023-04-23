@@ -178,6 +178,9 @@ class GoveeApp extends utils.Adapter {
           if (!id) {
             continue;
           }
+          device.deviceExt.deviceSettings = JSON.parse(device.deviceExt.deviceSettings);
+          device.deviceExt.extResources = JSON.parse(device.deviceExt.extResources);
+          device.deviceExt.lastDeviceData = JSON.parse(device.deviceExt.lastDeviceData);
           await this.json2iob.parse(id, device, { forceIndex: true });
         }
       })
