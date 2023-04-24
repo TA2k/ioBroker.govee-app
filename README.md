@@ -10,6 +10,7 @@
 [![NPM](https://nodei.co/npm/iobroker.govee-app.png?downloads=true)](https://nodei.co/npm/iobroker.govee-app/)
 
 **Tests:** ![Test and Release](https://github.com/TA2k/ioBroker.govee-app/workflows/Test%20and%20Release/badge.svg)
+**This adapter uses Sentry libraries to automatically report exceptions and code errors to the developers.** For more details and for information how to disable the error reporting see [Sentry-Plugin Documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry)! Sentry reporting is used starting with js-controller 3.0.
 
 ## govee adapter for ioBroker
 

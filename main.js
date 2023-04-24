@@ -28,8 +28,6 @@ class GoveeApp extends utils.Adapter {
     this.devices = {};
 
     this.updateInterval = null;
-    this.reLoginTimeout = null;
-    this.refreshTokenTimeout = null;
     this.session = {};
     this.defaultObjects = {};
     this.groups = {};
@@ -64,12 +62,12 @@ class GoveeApp extends utils.Adapter {
       this.log.info("Connect to MQTT");
       await this.connectMqtt();
       await this.updateDevices();
-      this.updateInterval = setInterval(async () => {
+      this.updateInterval = this.setInterval(async () => {
         await this.updateDevices();
         await this.updateViaDeviceList();
       }, 5 * 60 * 1000);
     }
-    this.refreshTokenInterval = setInterval(() => {
+    this.refreshTokenInterval = this.setInterval(() => {
       this.refreshToken();
     }, 24 * 60 * 60 * 1000);
   }
@@ -520,7 +518,7 @@ class GoveeApp extends utils.Adapter {
       }
       if (this.mqttC) {
         this.mqttC.end();
-        await this.sleep(200);
+        await this.delay(2000);
       }
 
       this.mqttC = awsIot.device({
@@ -640,9 +638,6 @@ class GoveeApp extends utils.Adapter {
     const commonName = certificate.cert.subject.attributes[0].value;
     return { pemCertificate, commonName };
   }
-  sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
   /**
    * Is called when adapter shuts down - callback has to be called under any circumstances!
    * @param {() => void} callback
@@ -650,10 +645,8 @@ class GoveeApp extends utils.Adapter {
   onUnload(callback) {
     try {
       this.setState("info.connection", false, true);
-      this.reLoginTimeout && clearTimeout(this.reLoginTimeout);
-      this.refreshTokenTimeout && clearTimeout(this.refreshTokenTimeout);
-      this.updateInterval && clearInterval(this.updateInterval);
-      this.refreshTokenInterval && clearInterval(this.refreshTokenInterval);
+      this.updateInterval && this.clearInterval(this.updateInterval);
+      this.refreshTokenInterval && this.clearInterval(this.refreshTokenInterval);
       callback();
     } catch (e) {
       callback();

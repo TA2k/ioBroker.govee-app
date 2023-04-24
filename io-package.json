@@ -32,26 +32,28 @@
     "titleLang": {
       "en": "Govee via App",
       "de": "Govee via App",
-      "ru": "Гови",
-      "pt": "Govee",
-      "nl": "Govee",
-      "fr": "Gouvernante",
-      "it": "Govee",
-      "es": "Govee",
-      "pl": "Govee",
-      "zh-cn": "戈维"
+      "ru": "Govee через приложение",
+      "pt": "Govee via App",
+      "nl": "Gove via App",
+      "fr": "Govee via App",
+      "it": "Govee via App",
+      "es": "Govee via App",
+      "pl": "Gove przez App",
+      "uk": "Перейти до вмісту",
+      "zh-cn": "通过附录"
     },
     "desc": {
       "en": "Adapter for Govee via App",
-      "de": "Adapter für Govee per App",
+      "de": "Adapter für Govee via App",
       "ru": "Адаптер для Govee через приложение",
       "pt": "Adaptador para Govee via App",
-      "nl": "Adapter voor Govee via app",
+      "nl": "Adapter voor Govee via App",
       "fr": "Adaptateur pour Govee via App",
       "it": "Adattatore per Govee tramite App",
       "es": "Adaptador para Govee vía App",
-      "pl": "Adapter do Govee przez aplikację",
-      "zh-cn": "通过 App 的 Govee 适配器"
+      "pl": "Okładka",
+      "uk": "Адаптер для Govee через додаток",
+      "zh-cn": "通过申请Goveter"
     },
     "authors": [
       "TA2k <tombox2020@gmail.com>"
