@@ -666,15 +666,12 @@ class GoveeApp extends utils.Adapter {
         const deviceId = id.split(".")[2];
         const folder = id.split(".")[3];
         const command = id.split(".")[4];
-        const device = this.devices[deviceId];
+
         if (id.split(".")[4] === "Refresh") {
           this.updateDevices();
           return;
         }
-        if (!device) {
-          this.log.warn(`Device ${deviceId} not found`);
-          return;
-        }
+
         let mqttCommand = command;
         let data = `{"val":${state.val}}`;
 
@@ -750,7 +747,11 @@ class GoveeApp extends utils.Adapter {
           }
           return;
         }
-
+        const device = this.devices[deviceId];
+        if (!device) {
+          this.log.warn(`Device ${deviceId} not found`);
+          return;
+        }
         if (!this.mqttC) {
           this.log.warn("MQTT not connected. Please wait for Mqtt connection");
           return;

@@ -58,7 +58,7 @@ You can also enable defaults/shortcuts
 
 ## Changelog
 
-### 0.0.5
+### 0.0.6
 
 - (TA2k) add support for BLE devices
 
