@@ -679,6 +679,11 @@ class GoveeApp extends utils.Adapter {
           const defaultItem = this.defaultObjects[folder];
 
           if (defaultItem) {
+            if (!defaultItem.iotRules) {
+              this.log.warn("Default not found: " + folder);
+              this.log.info(JSON.stringify(defaultItem));
+              return;
+            }
             for (const iotRule of defaultItem.iotRules) {
               const iotMsg = [];
               for (const iotRuleItem of iotRule.rule) {
