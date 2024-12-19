@@ -812,6 +812,18 @@ class GoveeApp extends utils.Adapter {
           }","cmd":"${mqttCommand}","cmdVersion":0,"data":${data},"transaction":"x_${Date.now()}","type":1}}`,
           { qos: 1 },
         );
+        if (command === "color") {
+          mqttCommand = "colorwc";
+          data = `{"color":{"b":${state.val},"g":${state.val},"r":${state.val}},"colorTemInKelvin":0}`;
+          this.log.debug(" MQTT send: " + mqttCommand + " to " + device.device + " data " + data);
+          this.mqttC.publish(
+            device.deviceExt.deviceSettings.topic,
+            `{"msg":{"accountTopic":"${
+              this.session.topic
+            }","cmd":"${mqttCommand}","cmdVersion":0,"data":${data},"transaction":"x_${Date.now()}","type":1}}`,
+            { qos: 1 },
+          );
+        }
       } else {
         const idArray = id.split(".");
         const command = id.split(".")[3];
