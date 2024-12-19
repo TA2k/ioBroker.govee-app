@@ -62,14 +62,20 @@ class GoveeApp extends utils.Adapter {
       this.log.info("Connect to MQTT");
       await this.connectMqtt();
       await this.updateDevices();
-      this.updateInterval = this.setInterval(async () => {
-        await this.updateDevices();
-        await this.updateViaDeviceList();
-      }, 5 * 60 * 1000);
+      this.updateInterval = this.setInterval(
+        async () => {
+          await this.updateDevices();
+          await this.updateViaDeviceList();
+        },
+        5 * 60 * 1000,
+      );
     }
-    this.refreshTokenInterval = this.setInterval(() => {
-      this.refreshToken();
-    }, 24 * 60 * 60 * 1000);
+    this.refreshTokenInterval = this.setInterval(
+      () => {
+        this.refreshToken();
+      },
+      24 * 60 * 60 * 1000,
+    );
   }
   async login() {
     await this.requestClient({
@@ -649,6 +655,7 @@ class GoveeApp extends utils.Adapter {
       this.refreshTokenInterval && this.clearInterval(this.refreshTokenInterval);
       callback();
     } catch (e) {
+      this.log.error("Error on unload: " + e);
       callback();
     }
   }
