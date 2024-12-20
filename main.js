@@ -814,7 +814,13 @@ class GoveeApp extends utils.Adapter {
         );
         if (mqttCommand === "color") {
           mqttCommand = "colorwc";
-          data = `{"color":{"b":${state.val},"g":${state.val},"r":${state.val}},"colorTemInKelvin":0}`;
+          const r = await this.getStateAsync(deviceId + ".remote.r");
+          const g = await this.getStateAsync(deviceId + ".remote.g");
+          const b = await this.getStateAsync(deviceId + ".remote.b");
+
+          if (r && g && b) {
+            data = `{"color":{"b":${b.val},"g":${g.val},"r":${r.val}},"colorTemInKelvin":0}`;
+          }
           this.log.debug(" MQTT send: " + mqttCommand + " to " + device.device + " data " + data);
           this.mqttC.publish(
             device.deviceExt.deviceSettings.topic,
