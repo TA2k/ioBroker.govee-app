@@ -57,6 +57,10 @@ govee-app.0.defaults
 You can also enable defaults/shortcuts
 
 ## Changelog
+### 0.0.7 (2024-12-20)
+
+- fix for rgb control
+- mqtt reconnect after error
 
 ### 0.0.6
 
@@ -70,7 +74,7 @@ You can also enable defaults/shortcuts
 
 MIT License
 
-Copyright (c) 2023 TA2k <tombox2020@gmail.com>
+Copyright (c) 2023-2030 TA2k <tombox2020@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -36,6 +36,7 @@ class GoveeApp extends utils.Adapter {
     this.diys = {};
     this.json2iob = new Json2iob(this);
     this.requestClient = axios.create();
+    this.reconnectTimeout = null;
   }
 
   /**
@@ -582,6 +583,13 @@ class GoveeApp extends utils.Adapter {
 
       this.mqttC.on("error", (error) => {
         this.log.error("MQTT ERROR: " + error);
+        if (this.mqttC) {
+          this.reconnectTimeout && clearTimeout(this.reconnectTimeout);
+          this.reconnectTimeout = setTimeout(() => {
+            this.connectMqtt();
+          }, 10000);
+          this.log.info("Reconnect in 10 seconds");
+        }
       });
     } catch (error) {
       this.log.error("MQTT ERROR: " + error);
@@ -653,6 +661,8 @@ class GoveeApp extends utils.Adapter {
       this.setState("info.connection", false, true);
       this.updateInterval && this.clearInterval(this.updateInterval);
       this.refreshTokenInterval && this.clearInterval(this.refreshTokenInterval);
+      this.reconnectTimeout && clearTimeout(this.reconnectTimeout);
+      this.mqttC && this.mqttC.end();
       callback();
     } catch (e) {
       this.log.error("Error on unload: " + e);

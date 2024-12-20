@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "govee-app",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "news": {
+      "0.0.7": {
+        "en": "fix for rgb control\nmqtt reconnect after error",
+        "de": "fix für rgb control\nmqtt erneut nach fehlern",
+        "ru": "для управления rgb\nmqtt повторно подключается после ошибки",
+        "pt": "correção para controle de rgb\nmqtt reconectar após erro",
+        "nl": "fix voor rgb controle\nmqtt opnieuw verbinden na fout",
+        "fr": "correction pour la commande rgb\nmqtt reconnect après erreur",
+        "it": "correzione per controllo rgb\nriconnettere mqtt dopo errore",
+        "es": "fijado para el control rgb\nmqtt volver a conectar después del error",
+        "pl": "fix do sterowania rgb\nmqtt ponownie połączyć po błędzie",
+        "uk": "фіксувати для керування ргбами\nmqtt відключення після помилки",
+        "zh-cn": "用于 rgb 控制的固定\n错误后 mqtt 重新连接"
+      },
       "0.0.6": {
         "en": "added update for BLE devices",
         "de": "Aktualisierung für BLE-Geräte",
