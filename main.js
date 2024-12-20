@@ -812,7 +812,7 @@ class GoveeApp extends utils.Adapter {
           }","cmd":"${mqttCommand}","cmdVersion":0,"data":${data},"transaction":"x_${Date.now()}","type":1}}`,
           { qos: 1 },
         );
-        if (command === "color") {
+        if (mqttCommand === "color") {
           mqttCommand = "colorwc";
           data = `{"color":{"b":${state.val},"g":${state.val},"r":${state.val}},"colorTemInKelvin":0}`;
           this.log.debug(" MQTT send: " + mqttCommand + " to " + device.device + " data " + data);
