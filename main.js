@@ -233,21 +233,21 @@ class GoveeApp extends utils.Adapter {
             device.deviceExt.extResources = JSON.parse(device.deviceExt.extResources);
             device.deviceExt.lastDeviceData = JSON.parse(device.deviceExt.lastDeviceData);
 
-            await this.setObjectNotExistsAsync(id, {
+            await this.extendObject(id, {
               type: "device",
               common: {
                 name: name,
               },
               native: {},
             });
-            await this.setObjectNotExistsAsync(id + ".remote", {
+            await this.extendObject(id + ".remote", {
               type: "channel",
               common: {
                 name: "Remote Controls",
               },
               native: {},
             });
-            await this.setObjectNotExistsAsync(id + ".status", {
+            await this.extendObject(id + ".status", {
               type: "channel",
               common: {
                 name: "Status",
@@ -265,7 +265,7 @@ class GoveeApp extends utils.Adapter {
               { command: "colorwc", type: "number", role: "level", name: "Color Temp", def: 0 },
             ];
             remoteArray.forEach((remote) => {
-              this.setObjectNotExists(id + ".remote." + remote.command, {
+              this.extendObject(id + ".remote." + remote.command, {
                 type: "state",
                 common: {
                   name: remote.name || "",
@@ -307,7 +307,7 @@ class GoveeApp extends utils.Adapter {
               .then(async (res) => {
                 this.log.debug(JSON.stringify(res.data));
                 if (res.data.data) {
-                  await this.setObjectNotExistsAsync(id + ".snapshots", {
+                  await this.extendObject(id + ".snapshots", {
                     type: "channel",
                     common: {
                       name: "Activate Snapshots",
@@ -317,7 +317,7 @@ class GoveeApp extends utils.Adapter {
                   for (const snapshot of res.data.data.snapshots) {
                     this.log.info("Received Snapshot: " + snapshot.name + " " + snapshot.snapshotId);
                     this.snapshots[snapshot.snapshotId] = snapshot;
-                    this.setObjectNotExists(id + ".snapshots." + snapshot.snapshotId, {
+                    this.extendObject(id + ".snapshots." + snapshot.snapshotId, {
                       type: "state",
                       common: {
                         name: snapshot.name || "",
