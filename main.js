@@ -88,7 +88,7 @@ class GoveeApp extends utils.Adapter {
         timestamp: Date.now() + ".081500",
         envid: "0",
         clientid: "d39f7b0732a24e58acf771103ebefc04",
-        appversion: "5.4.10",
+        appversion: "6.4.12",
         "accept-language": "de",
         clienttype: "1",
         "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
@@ -129,7 +129,7 @@ class GoveeApp extends utils.Adapter {
         timestamp: Date.now() + ".686035",
         envid: "0",
         clientid: "d39f7b0732a24e58acf771103ebefc04",
-        appversion: "5.4.10",
+        appversion: "6.4.12",
         "accept-language": "de",
         clienttype: "1",
         "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
@@ -167,7 +167,7 @@ class GoveeApp extends utils.Adapter {
         timestamp: Date.now() + ".767822",
         envid: "0",
         clientid: "d39f7b0732a24e58acf771103ebefc04",
-        appversion: "5.4.10",
+        appversion: "6.4.12",
         "accept-language": "de",
         clienttype: "1",
         "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
@@ -206,10 +206,10 @@ class GoveeApp extends utils.Adapter {
         timestamp: Date.now() + ".767822",
         envid: "0",
         clientid: "d39f7b0732a24e58acf771103ebefc04",
-        appversion: "5.4.10",
+        appversion: "6.4.12",
         "accept-language": "de",
         clienttype: "1",
-        "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
+        "user-agent": "GoveeHome/6.4.12 (com.ihoment.GoVeeSensor; build:3; iOS 15.8.3) Alamofire/5.6.4",
         timezone: "Europe/Berlin",
         country: "DE",
         iotversion: "0",
@@ -278,7 +278,7 @@ class GoveeApp extends utils.Adapter {
                 native: {},
               });
             });
-            await this.json2iob.parse(id, device, { forceIndex: true });
+            await this.json2iob.parse(id, device, { forceIndex: true, channelName: name });
             //receive snapshots
             await this.requestClient({
               method: "get",
@@ -295,7 +295,7 @@ class GoveeApp extends utils.Adapter {
                 timestamp: Date.now() + ".686035",
                 envid: "0",
                 clientid: "d39f7b0732a24e58acf771103ebefc04",
-                appversion: "5.4.10",
+                appversion: "6.4.12",
                 "accept-language": "de",
                 clienttype: "1",
                 "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
@@ -406,7 +406,7 @@ class GoveeApp extends utils.Adapter {
               timestamp: Date.now() + ".686035",
               envid: "0",
               clientid: "d39f7b0732a24e58acf771103ebefc04",
-              appversion: "5.4.10",
+              appversion: "6.4.12",
               "accept-language": "de",
               clienttype: "1",
               "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
@@ -465,7 +465,7 @@ class GoveeApp extends utils.Adapter {
               timestamp: Date.now() + ".686035",
               envid: "0",
               clientid: "d39f7b0732a24e58acf771103ebefc04",
-              appversion: "5.4.10",
+              appversion: "6.4.12",
               "accept-language": "de",
               clienttype: "1",
               "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
@@ -603,9 +603,7 @@ class GoveeApp extends utils.Adapter {
       if (this.mqttC) {
         this.mqttC.publish(
           device.deviceExt.deviceSettings.topic,
-          `{"msg":{"accountTopic":"${
-            this.session.topic
-          }","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
+          `{"msg":{"accountTopic":"${this.session.topic}","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
           { qos: 1 },
         );
       }
@@ -716,7 +714,7 @@ class GoveeApp extends utils.Adapter {
                   timestamp: Date.now() + ".686035",
                   envid: "0",
                   clientid: "d39f7b0732a24e58acf771103ebefc04",
-                  appversion: "5.4.10",
+                  appversion: "6.4.12",
                   "accept-language": "de",
                   clienttype: "1",
                   "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
