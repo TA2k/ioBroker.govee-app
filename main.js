@@ -263,6 +263,13 @@ class GoveeApp extends utils.Adapter {
               { command: "g", type: "number", role: "level", name: "Color green", def: 0 },
               { command: "b", type: "number", role: "level", name: "Color blue", def: 0 },
               { command: "colorwc", type: "number", role: "level", name: "Color Temp", def: 0 },
+              {
+                command: "ptReal",
+                type: "string",
+                role: "text",
+                name: "Send Custom OnOff",
+                def: "3301000000000000000000000000000000000032",
+              },
             ];
             remoteArray.forEach((remote) => {
               this.extendObject(id + ".remote." + remote.command, {
@@ -808,6 +815,11 @@ class GoveeApp extends utils.Adapter {
           mqttCommand = "colorwc";
           data = `{"color":{"b":255,"g":255,"r":255},"colorTemInKelvin":${state.val}}`;
         }
+        if (command === "ptReal") {
+          //send state.val hex values as base64
+          data = `{"command":["${Buffer.from(state.val, "hex").toString("base64")}"]}`;
+        }
+
         if (!device) {
           this.log.warn("Device not found: " + deviceId);
           return;
