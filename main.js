@@ -607,13 +607,16 @@ class GoveeApp extends utils.Adapter {
   async updateDevices() {
     for (const device of this.deviceArray) {
       this.log.debug(" MQTT publish to " + device.device);
-
+      this.log.debug(
+        `Publish to ${device.deviceExt.deviceSettings.topic} data: {"msg":{"accountTopic":"${this.session.topic}","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
+      );
       if (this.mqttC) {
-        this.mqttC.publish(
+        const publishResponse = await this.mqttC.publish(
           device.deviceExt.deviceSettings.topic,
           `{"msg":{"accountTopic":"${this.session.topic}","cmd":"status","cmdVersion":0,"transaction":"x_${Date.now()}","type":0}}`,
           { qos: 1 },
         );
+        this.log.debug("Publish response: " + JSON.stringify(publishResponse));
       }
     }
   }
