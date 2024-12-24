@@ -268,8 +268,8 @@ class GoveeApp extends utils.Adapter {
                 command: "ptReal",
                 type: "string",
                 role: "text",
-                name: "Send Custom OnOff",
-                def: "3301000000000000000000000000000000000032",
+                name: "Send Custom OnOff 3301000000000000000000000000000000000032",
+                def: "3301010000000000000000000000000000000033",
               },
             ];
             remoteArray.forEach((remote) => {

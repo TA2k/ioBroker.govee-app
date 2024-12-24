@@ -56,7 +56,13 @@ govee-app.0.defaults
 
 You can also enable defaults/shortcuts
 
+ptReal Commands:
+
+On: 3301010000000000000000000000000000000033
+Off: 3301000000000000000000000000000000000032
+
 ## Changelog
+
 ### 0.0.7 (2024-12-20)
 
 - fix for rgb control
