@@ -37,6 +37,7 @@ class GoveeApp extends utils.Adapter {
     this.json2iob = new Json2iob(this);
     this.requestClient = axios.create();
     this.reconnectTimeout = null;
+    this.randomClientId = Math.random().toString(16).slice(2, 19);
   }
 
   /**
@@ -536,7 +537,7 @@ class GoveeApp extends utils.Adapter {
       }
 
       this.mqttC = awsIot.device({
-        clientId: `AP/${this.session.accountId}/a36bcee2ebe0db37e`,
+        clientId: `AP/${this.session.accountId}/` + this.randomClientId,
         username: "?SDK=Android&Version=2.15.2",
         privateKey: Buffer.from(this.iot.pem.pemKey, "utf-8"),
         clientCert: Buffer.from(this.iot.pem.pemCertificate, "utf-8"),
@@ -779,6 +780,41 @@ class GoveeApp extends utils.Adapter {
           this.log.warn(`Device ${deviceId} not found`);
           return;
         }
+        if (command === "ptReal") {
+          //example data
+          //send state.val hex values as base64
+          data = `{"device":"${deviceId}","ga":"${this.session.topic}","gas":"${device.gas}","gd":"${device.deviceExt.deviceSettings.topic}","iotMsg":"{\\"msg\\":{\\"accountTopic\\":\\"${this.session.topic}\\",\\"cmd\\":\\"ptReal\\",\\"cmdVersion\\":0,\\"data\\":{\\"command\\":[\\"${state.val}\\"]},\\"transaction\\":\\"u_${Date.now()}\\",\\"type\\":1}}","sku":"${device.deviceExt.deviceSettings.sku}","transaction":"u_${Date.now()}"}`;
+          await this.requestClient({
+            method: "post",
+            maxBodyLength: Infinity,
+            url: "https://app2.govee.com/bff-app/v1/fx-device/iot-msgs",
+            headers: {
+              sysversion: "9",
+              country: "DE",
+              appversion: "6.4.11",
+              clientid: this.randomClientId,
+              clienttype: "0",
+              timezone: "Europe/Berlin",
+              "accept-language": "de",
+              envid: "0",
+              iotversion: "0",
+              timestamp: "1735041309011",
+              authorization: "Bearer " + this.session.token,
+              "content-type": "application/json; charset=UTF-8",
+              "user-agent": "okhttp/4.11.0",
+            },
+            data: data,
+          })
+            .then((res) => {
+              this.log.info(JSON.stringify(res.data));
+            })
+            .catch((error) => {
+              this.log.error(error);
+              this.log.error("Command send failed");
+              error.response && this.log.error(JSON.stringify(error.response.data));
+            });
+          return;
+        }
         if (!this.mqttC) {
           this.log.warn("MQTT not connected. Please wait for Mqtt connection");
           return;
@@ -814,10 +850,6 @@ class GoveeApp extends utils.Adapter {
         if (command === "colorwc") {
           mqttCommand = "colorwc";
           data = `{"color":{"b":255,"g":255,"r":255},"colorTemInKelvin":${state.val}}`;
-        }
-        if (command === "ptReal") {
-          //send state.val hex values as base64
-          data = `{"command":["${Buffer.from(state.val, "hex").toString("base64")}"]}`;
         }
 
         if (!device) {
