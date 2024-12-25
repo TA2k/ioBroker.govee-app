@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "govee-app",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "news": {
+      "0.0.8": {
+        "en": "add multiSync to change the level for Humidifiers",
+        "de": "multiSync hinzufügen, um die Level für Humidifiers zu ändern",
+        "ru": "добавить multiSync, чтобы изменить уровень для Humidifiers",
+        "pt": "adicionar multiSync para mudar o nível para Humidifiers",
+        "nl": "multiSync toevoegen om het niveau voor bevochtigers te wijzigen",
+        "fr": "ajouter multiSync pour modifier le niveau des humidificateurs",
+        "it": "aggiungere multiSync per cambiare il livello per Humidifiers",
+        "es": "añadir multiSync para cambiar el nivel de Humidifiers",
+        "pl": "dodaj multiSync, aby zmienić poziom nawilżaczy",
+        "uk": "додати багатоSync для зміни рівня для зволожувачів",
+        "zh-cn": "添加多同步以更改湿度器的级别"
+      },
       "0.0.7": {
         "en": "fix for rgb control\nmqtt reconnect after error",
         "de": "fix für rgb control\nmqtt erneut nach fehlern",
