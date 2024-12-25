@@ -784,43 +784,8 @@ class GoveeApp extends utils.Adapter {
           return;
         }
         if (command === "ptReal") {
-          //example data
           //send state.val hex values as base64
-          data = `{"device":"${deviceId}","ga":"${this.session.topic}","gas":"${device.gas}","gd":"${device.deviceExt.deviceSettings.topic}","iotMsg":"{\\"msg\\":{\\"accountTopic\\":\\"${this.session.topic}\\",\\"cmd\\":\\"ptReal\\",\\"cmdVersion\\":0,\\"data\\":{\\"command\\":[\\"${state.val}\\"]},\\"transaction\\":\\"u_${Date.now()}\\",\\"type\\":1}}","sku":"${device.deviceExt.deviceSettings.sku}","transaction":"u_${Date.now()}"}`;
-          await this.requestClient({
-            method: "post",
-            maxBodyLength: Infinity,
-            url: "https://app2.govee.com/bff-app/v1/fx-device/iot-msgs",
-            headers: {
-              sysversion: "9",
-              country: "DE",
-              appversion: "6.4.11",
-              clientid: this.randomClientId,
-              clienttype: "0",
-              timezone: "Europe/Berlin",
-              "accept-language": "de",
-              envid: "0",
-              iotversion: "0",
-              timestamp: "1735041309011",
-              authorization: "Bearer " + this.session.token,
-              "content-type": "application/json; charset=UTF-8",
-              "user-agent": "okhttp/4.11.0",
-            },
-            data: data,
-          })
-            .then((res) => {
-              this.log.info(JSON.stringify(res.data));
-            })
-            .catch((error) => {
-              this.log.error(error);
-              this.log.error("Command send failed");
-              error.response && this.log.error(JSON.stringify(error.response.data));
-            });
-          return;
-        }
-        if (!this.mqttC) {
-          this.log.warn("MQTT not connected. Please wait for Mqtt connection");
-          return;
+          data = `{"command":["${Buffer.from(state.val, "hex").toString("base64")}"]}`;
         }
         if (folder === "snapshots") {
           if (!this.snapshots[command]) {
