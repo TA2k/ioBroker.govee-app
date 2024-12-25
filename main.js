@@ -271,6 +271,13 @@ class GoveeApp extends utils.Adapter {
                 name: "Send Custom OnOff 3301000000000000000000000000000000000032",
                 def: "3301010000000000000000000000000000000033",
               },
+              {
+                command: "multiSync",
+                type: "string",
+                role: "text",
+                name: "Send Custom Level see Readme",
+                def: "3a0501020000000000000000000000000000003c",
+              },
             ];
             remoteArray.forEach((remote) => {
               this.extendObject(id + ".remote." + remote.command, {
@@ -783,7 +790,7 @@ class GoveeApp extends utils.Adapter {
           this.log.warn(`Device ${deviceId} not found`);
           return;
         }
-        if (command === "ptReal") {
+        if (command === "ptReal" || command === "multiSync") {
           //send state.val hex values as base64
           data = `{"command":["${Buffer.from(state.val, "hex").toString("base64")}"]}`;
         }
