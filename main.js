@@ -80,9 +80,17 @@ class GoveeApp extends utils.Adapter {
     );
   }
   async login() {
+    const data = {
+      client: "d39f7b0732a24e58acf771103ebefc04",
+      email: this.config.username,
+      password: this.config.password,
+    };
+    if (this.config.code) {
+      data.code = this.config.code;
+    }
     await this.requestClient({
       method: "post",
-      url: "https://app2.govee.com/account/rest/account/v1/login",
+      url: "https://app2.govee.com/account/rest/account/v2/login",
       headers: {
         "content-type": "application/json",
         accept: "*/*",
@@ -92,16 +100,12 @@ class GoveeApp extends utils.Adapter {
         appversion: "6.4.12",
         "accept-language": "de",
         clienttype: "1",
-        "user-agent": "GoveeHome/5.4.10 (com.ihoment.GoVeeSensor; build:3; iOS 14.8.0) Alamofire/5.6.4",
+        "user-agent": "GoveeHome/6.4.12 (com.ihoment.GoVeeSensor; build:3; iOS 15.8.3) Alamofire/5.6.4",
         timezone: "Europe/Berlin",
         country: "DE",
         iotversion: "0",
       },
-      data: {
-        client: "d39f7b0732a24e58acf771103ebefc04",
-        email: this.config.username,
-        password: this.config.password,
-      },
+      data: data,
     })
       .then((res) => {
         this.log.debug(JSON.stringify(res.data));
@@ -109,6 +113,10 @@ class GoveeApp extends utils.Adapter {
           this.log.info("Login successful");
           this.session = res.data.client;
           this.setState("info.connection", true, true);
+        } else if (res.data.status === 454) {
+          //2FA
+          this.log.warn("2FA required. Please enter the code in the instance settings");
+          return;
         } else {
           this.log.error("Login failed: " + JSON.stringify(res.data));
           return;
@@ -672,13 +680,19 @@ class GoveeApp extends utils.Adapter {
    * Is called when adapter shuts down - callback has to be called under any circumstances!
    * @param {() => void} callback
    */
-  onUnload(callback) {
+  async onUnload(callback) {
     try {
       this.setState("info.connection", false, true);
       this.updateInterval && this.clearInterval(this.updateInterval);
       this.refreshTokenInterval && this.clearInterval(this.refreshTokenInterval);
       this.reconnectTimeout && clearTimeout(this.reconnectTimeout);
       this.mqttC && this.mqttC.end();
+      //get adapter settings and set captcha to null
+      if (this.config.code) {
+        const adapterSettings = await this.getForeignObjectAsync("system.adapter." + this.namespace);
+        adapterSettings.native.code = null;
+        await this.setForeignObject("system.adapter." + this.namespace, adapterSettings);
+      }
       callback();
     } catch (e) {
       this.log.error("Error on unload: " + e);

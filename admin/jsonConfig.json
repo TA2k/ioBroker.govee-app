@@ -38,6 +38,24 @@
         "uk": "Ім'я користувача",
         "zh-cn": "护照处"
       }
+    },
+    "code": {
+      "type": "text",
+      "label": {
+        "en": "App Email Code 2FA (optional)",
+        "de": "App E-Mail-Code 2FA (optional)",
+        "ru": "Приложение Email Code 2FA (необязательно)",
+        "pt": "Código de e-mail do aplicativo 2FA (opcional)",
+        "nl": "App E-mailcode 2FA (optioneel)",
+        "fr": "Code e-mail de l'application 2FA (facultatif)",
+        "it": "Codice e-mail dell'applicazione 2FA (opzionale)",
+        "es": "Código de correo electrónico de la aplicación 2FA (opcional)",
+        "pl": "Kod e-mail aplikacji 2FA (opcjonalnie)",
+        "uk": "Код електронної пошти програми 2FA (необов'язково)",
+        "zh-cn": "应用程序电子邮件代码2FA（可选）"
+      },
+      "newLine": true,
+      "sm": 3
     }
   }
 }

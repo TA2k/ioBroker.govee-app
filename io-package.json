@@ -128,7 +128,8 @@
   ],
   "native": {
     "username": "",
-    "password": ""
+    "password": "",
+    "code": ""
   },
   "objects": [],
   "instanceObjects": [
