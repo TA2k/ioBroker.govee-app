@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "govee-app",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "news": {
+      "0.0.9": {
+        "en": "add mfa code support",
+        "de": "mfa code support",
+        "ru": "добавить mfa код поддержки",
+        "pt": "adicionar suporte de código mfa",
+        "nl": "mfa code ondersteuning toevoegen",
+        "fr": "ajouter le support de code mfa",
+        "it": "aggiungere supporto codice mfa",
+        "es": "añadir soporte de código mfa",
+        "pl": "dodaj obsługę kodu mfa",
+        "uk": "додати підтримку коду mfa",
+        "zh-cn": "添加 mfa 代码支持"
+      },
       "0.0.8": {
         "en": "add multiSync to change the level for Humidifiers",
         "de": "multiSync hinzufügen, um die Level für Humidifiers zu ändern",
