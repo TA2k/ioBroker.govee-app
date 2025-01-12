@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "govee-app",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "news": {
+      "0.0.10": {
+        "en": "add mfa code support",
+        "de": "mfa code support",
+        "ru": "добавить mfa код поддержки",
+        "pt": "adicionar suporte de código mfa",
+        "nl": "mfa code ondersteuning toevoegen",
+        "fr": "ajouter le support de code mfa",
+        "it": "aggiungere supporto codice mfa",
+        "es": "añadir soporte de código mfa",
+        "pl": "dodaj obsługę kodu mfa",
+        "uk": "додати підтримку коду mfa",
+        "zh-cn": "添加 mfa 代码支持"
+      },
       "0.0.9": {
         "en": "add mfa code support",
         "de": "mfa code support",

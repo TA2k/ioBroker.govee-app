@@ -1,6 +1,6 @@
 {
   "name": "iobroker.govee-app",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Adapter for Govee via App",
   "author": {
     "name": "TA2k",

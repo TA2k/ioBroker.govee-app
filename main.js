@@ -116,6 +116,38 @@ class GoveeApp extends utils.Adapter {
         } else if (res.data.status === 454) {
           //2FA
           this.log.warn("2FA required. Please enter the code in the instance settings");
+          this.requestClient({
+            method: "post",
+            maxBodyLength: Infinity,
+            url: "https://app2.govee.com/account/rest/account/v1/verification",
+            headers: {
+              "content-type": "application/json",
+              accept: "*/*",
+              timestamp: Date.now() + ".081500",
+              envid: "0",
+              clientid: "d39f7b0732a24e58acf771103ebefc04",
+              appversion: "6.4.12",
+              "accept-language": "de",
+              sysversion: "15.8.3",
+              clienttype: "1",
+              "user-agent": "GoveeHome/6.4.12 (com.ihoment.GoVeeSensor; build:3; iOS 15.8.3) Alamofire/5.6.4",
+              timezone: "Europe/Berlin",
+              country: "DE",
+              iotversion: "0",
+            },
+            data: {
+              type: 8,
+              email: this.config.username,
+            },
+          })
+            .then((res) => {
+              this.log.debug(JSON.stringify(res.data));
+            })
+            .catch((error) => {
+              this.log.error(error);
+              this.log.error("2FA failed");
+              error.response && this.log.error(JSON.stringify(error.response.data));
+            });
           return;
         } else {
           this.log.error("Login failed: " + JSON.stringify(res.data));
