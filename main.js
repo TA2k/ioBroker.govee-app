@@ -38,6 +38,7 @@ class GoveeApp extends utils.Adapter {
     this.requestClient = axios.create();
     this.reconnectTimeout = null;
     this.randomClientId = Math.random().toString(16).slice(2, 19);
+    this.clientId = "d39f7b0732a24e58acf771103ebefc04";
   }
 
   /**
@@ -81,7 +82,7 @@ class GoveeApp extends utils.Adapter {
   }
   async login() {
     const data = {
-      client: "d39f7b0732a24e58acf771103ebefc04",
+      client: this.clientId,
       email: this.config.username,
       password: this.config.password,
     };
@@ -96,7 +97,7 @@ class GoveeApp extends utils.Adapter {
         accept: "*/*",
         timestamp: Date.now() + ".081500",
         envid: "0",
-        clientid: "d39f7b0732a24e58acf771103ebefc04",
+        clientid: this.clientId,
         appversion: "6.4.12",
         "accept-language": "de",
         clienttype: "1",
@@ -125,7 +126,7 @@ class GoveeApp extends utils.Adapter {
               accept: "*/*",
               timestamp: Date.now() + ".081500",
               envid: "0",
-              clientid: "d39f7b0732a24e58acf771103ebefc04",
+              clientid: this.clientId,
               appversion: "6.4.12",
               "accept-language": "de",
               sysversion: "15.8.3",
@@ -169,7 +170,7 @@ class GoveeApp extends utils.Adapter {
         accept: "*/*",
         timestamp: Date.now() + ".686035",
         envid: "0",
-        clientid: "d39f7b0732a24e58acf771103ebefc04",
+        clientid: this.clientId,
         appversion: "6.4.12",
         "accept-language": "de",
         clienttype: "1",
@@ -207,7 +208,7 @@ class GoveeApp extends utils.Adapter {
         accept: "*/*",
         timestamp: Date.now() + ".767822",
         envid: "0",
-        clientid: "d39f7b0732a24e58acf771103ebefc04",
+        clientid: this.clientId,
         appversion: "6.4.12",
         "accept-language": "de",
         clienttype: "1",
@@ -246,7 +247,7 @@ class GoveeApp extends utils.Adapter {
         accept: "*/*",
         timestamp: Date.now() + ".767822",
         envid: "0",
-        clientid: "d39f7b0732a24e58acf771103ebefc04",
+        clientid: this.clientId,
         appversion: "6.4.12",
         "accept-language": "de",
         clienttype: "1",
@@ -349,7 +350,7 @@ class GoveeApp extends utils.Adapter {
                 accept: "*/*",
                 timestamp: Date.now() + ".686035",
                 envid: "0",
-                clientid: "d39f7b0732a24e58acf771103ebefc04",
+                clientid: this.clientId,
                 appversion: "6.4.12",
                 "accept-language": "de",
                 clienttype: "1",
@@ -406,7 +407,7 @@ class GoveeApp extends utils.Adapter {
             //     accept: "*/*",
             //     timestamp: Date.now() + ".686035",
             //     envid: "0",
-            //     clientid: "d39f7b0732a24e58acf771103ebefc04",
+            //     clientid:this.clientId,
             //     appversion: "5.4.10",
             //     "accept-language": "de",
             //     clienttype: "1",
@@ -460,7 +461,7 @@ class GoveeApp extends utils.Adapter {
               accept: "*/*",
               timestamp: Date.now() + ".686035",
               envid: "0",
-              clientid: "d39f7b0732a24e58acf771103ebefc04",
+              clientid: this.clientId,
               appversion: "6.4.12",
               "accept-language": "de",
               clienttype: "1",
@@ -519,7 +520,7 @@ class GoveeApp extends utils.Adapter {
               accept: "*/*",
               timestamp: Date.now() + ".686035",
               envid: "0",
-              clientid: "d39f7b0732a24e58acf771103ebefc04",
+              clientid: this.clientId,
               appversion: "6.4.12",
               "accept-language": "de",
               clienttype: "1",
@@ -777,7 +778,7 @@ class GoveeApp extends utils.Adapter {
                   accept: "*/*",
                   timestamp: Date.now() + ".686035",
                   envid: "0",
-                  clientid: "d39f7b0732a24e58acf771103ebefc04",
+                  clientid: this.clientId,
                   appversion: "6.4.12",
                   "accept-language": "de",
                   clienttype: "1",
