@@ -92,6 +92,9 @@ Nightlight On : 3a1b010101000000000000000000000000000020
 Nightlight Off: 3a1b010100000000000000000000000000000021
 
 ## Changelog
+### 0.0.11 (2026-03-23)
+- Update app version
+
 ### 0.0.10 (2025-01-12)
 
 - add mfa code support

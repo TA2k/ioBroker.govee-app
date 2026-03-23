@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "govee-app",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "news": {
+      "0.0.11": {
+        "en": "Update app version",
+        "de": "App-Version aktualisieren",
+        "ru": "Обновить версию приложения",
+        "pt": "Actualizar a versão da aplicação",
+        "nl": "Appversie bijwerken",
+        "fr": "Mettre à jour la version de l'application",
+        "it": "Aggiorna la versione app",
+        "es": "Versión de actualización de la aplicación",
+        "pl": "Aktualizuj wersję aplikacji",
+        "uk": "Оновлення програми",
+        "zh-cn": "更新应用程序版本"
+      },
       "0.0.10": {
         "en": "add mfa code support",
         "de": "mfa code support",
