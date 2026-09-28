@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "govee-app",
-    "version": "0.0.11",
+    "version": "0.0.12",
     "news": {
+      "0.0.12": {
+        "en": "Fix invalid jsonConfig: add missing root type so the settings form renders again",
+        "de": "Ungültige jsonConfig behoben: fehlenden Root-Typ ergänzt, damit das Einstellungsformular wieder angezeigt wird",
+        "ru": "Исправлена недопустимая jsonConfig: добавлен отсутствующий корневой тип, чтобы форма настроек снова отображалась",
+        "pt": "Corrigido jsonConfig inválido: adicionado o tipo raiz em falta para o formulário de definições voltar a aparecer",
+        "nl": "Ongeldige jsonConfig hersteld: ontbrekend root-type toegevoegd zodat het instellingenformulier weer verschijnt",
+        "fr": "Correction d'un jsonConfig invalide : ajout du type racine manquant pour réafficher le formulaire de paramètres",
+        "it": "Corretto jsonConfig non valido: aggiunto il tipo radice mancante per mostrare di nuovo il modulo impostazioni",
+        "es": "Corregido jsonConfig no válido: añadido el tipo raíz que faltaba para que el formulario de ajustes vuelva a mostrarse",
+        "pl": "Naprawiono nieprawidłowy jsonConfig: dodano brakujący typ główny, aby formularz ustawień znów się wyświetlał",
+        "uk": "Виправлено недійсний jsonConfig: додано відсутній кореневий тип, щоб форма налаштувань знову відображалася",
+        "zh-cn": "修复无效的 jsonConfig：补充缺失的根 type，使设置表单可以再次显示"
+      },
       "0.0.11": {
         "en": "Update app version",
         "de": "App-Version aktualisieren",
